@@ -1,0 +1,39 @@
+{
+  "type_definitions": [
+    {
+      "type": "document",
+      "relations": {
+        "reader": {
+          "this": {}
+        },
+        "writer": {
+          "this": {}
+        },
+        "view": {
+          "union": {
+            "child": [
+              {
+                "computedUserset": {
+                  "object": "",
+                  "relation": "writer"
+                }
+              },
+              {
+                "computedUserset": {
+                  "object": "",
+                  "relation": "reader"
+                }
+              }
+            ]
+          }
+        },
+        "edit": {
+          "computedUserset": {
+            "object": "",
+            "relation": "writer"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="OPA OpenFGA" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="custom-opa-openfga" />
+    <working_directory value="$PROJECT_DIR$" />
+    <parameters value="run --set plugins.openfga.apiScheme=http --set plugins.openfga.apiHost=localhost:8080 --set plugins.openfga.apiToken=foobar --set plugins.openfga.storeId=ABCD12345678901234567890XX" />
+    <kind value="FILE" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

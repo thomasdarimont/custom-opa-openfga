@@ -1,0 +1,8 @@
+services:
+  openfga:
+    image: openfga/openfga:v0.2.3
+    container_name: openfga
+    command: "run --authn-method=preshared --authn-preshared-keys=foobar"
+    ports:
+      - "8080:8080"
+      - "3000:3000"
