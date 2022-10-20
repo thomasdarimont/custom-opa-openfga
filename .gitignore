@@ -1,3 +1,5 @@
 .idea/
 /custom-opa-openfga
 
+
+dist/
