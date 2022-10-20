@@ -43,7 +43,7 @@ FGA_BEARER_TOKEN=foobar
 curl -X POST $FGA_API_URL/stores/$FGA_STORE_ID/authorization-models \
   -H "Authorization: Bearer $FGA_BEARER_TOKEN" \
   -H "content-type: application/json" \
-  -d @./schema.json
+  -d @./demo/schema.json
 
 curl -X POST $FGA_API_URL/stores/$FGA_STORE_ID/write \
   -H "Authorization: Bearer $FGA_BEARER_TOKEN" \
