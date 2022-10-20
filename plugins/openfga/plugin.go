@@ -39,44 +39,47 @@ func GetOpenFGAClient() *openfga.APIClient {
 	return instance.client
 }
 
-func (o *OpenFGAPlugin) Start(ctx context.Context) error {
+func (p *OpenFGAPlugin) Start(ctx context.Context) error {
 
 	configuration, err := openfga.NewConfiguration(openfga.Configuration{
-		ApiScheme: o.config.ApiScheme,
-		ApiHost:   o.config.ApiHost,
-		StoreId:   o.config.StoreId,
+		ApiScheme: p.config.ApiScheme,
+		ApiHost:   p.config.ApiHost,
+		StoreId:   p.config.StoreId,
 		Credentials: &credentials.Credentials{
 			Method: credentials.CredentialsMethodApiToken,
 			Config: &credentials.Config{
-				ApiToken: o.config.ApiToken,
+				ApiToken: p.config.ApiToken,
 			},
 		},
 	})
 
-	o.client = openfga.NewAPIClient(configuration)
+	p.client = openfga.NewAPIClient(configuration)
 
 	// HACK to expose plugin instance to be able to access the openfga client from the custom openfga check_permission builtin
-	instance = o
+	instance = p
+
+	p.manager.UpdatePluginStatus(PluginName, &plugins.Status{State: plugins.StateOK})
 
 	return err
 
 }
 
-func (o *OpenFGAPlugin) Stop(ctx context.Context) {
+func (p *OpenFGAPlugin) Stop(ctx context.Context) {
+	p.manager.UpdatePluginStatus(PluginName, &plugins.Status{State: plugins.StateNotReady})
 }
 
-func (o *OpenFGAPlugin) Reconfigure(ctx context.Context, config any) {
+func (p *OpenFGAPlugin) Reconfigure(ctx context.Context, config any) {
 
-	o.mtx.Lock()
-	defer o.mtx.Unlock()
+	p.mtx.Lock()
+	defer p.mtx.Unlock()
 
-	if o.config.ApiHost != config.(Config).ApiHost {
-		o.Stop(ctx)
-		if err := o.Start(ctx); err != nil {
-			o.manager.UpdatePluginStatus(PluginName, &plugins.Status{State: plugins.StateErr})
+	if p.config.ApiHost != config.(Config).ApiHost {
+		p.Stop(ctx)
+		if err := p.Start(ctx); err != nil {
+			p.manager.UpdatePluginStatus(PluginName, &plugins.Status{State: plugins.StateErr})
 		}
 	}
-	o.config = config.(Config)
+	p.config = config.(Config)
 }
 
 type Factory struct{}
